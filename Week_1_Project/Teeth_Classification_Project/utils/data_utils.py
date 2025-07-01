@@ -1,9 +1,59 @@
-import os
-import random
 from pathlib import Path
 from typing import Dict, List, Iterator, Tuple
 
 import numpy as np
+
+import tensorflow as tf
+from tensorflow.keras.utils import image_dataset_from_directory
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
+
+def get_data_loader(
+    data_dir: str = "data/Teeth_Dataset",
+    split: str = "Training",
+    batch_size: int = 32,
+    image_size: Tuple[int, int] = (224, 224),
+    class_mode: str = "categorical",
+    shuffle: bool = True,
+    seed: int = 42,
+    augment: bool = False,
+    ) -> tf.data.Dataset:
+    """
+    Get a data loader for the dataset.
+    Returns a tf.data.Dataset for the given split.
+    If augment is True, applies basic data augmentation.
+    """
+    split_dir = Path(data_dir) / split
+    if not split_dir.exists():
+        raise FileNotFoundError(f"Split directory not found: {split_dir}")
+
+    if augment:
+        datagen = ImageDataGenerator(
+            rescale=1./255,
+            rotation_range=20,
+            width_shift_range=0.1,
+            height_shift_range=0.1,
+            shear_range=0.1,
+            zoom_range=0.1,
+            horizontal_flip=True,
+            fill_mode='nearest',
+            validation_split=0.0
+        )
+    else:
+        datagen = ImageDataGenerator(
+            rescale=1./255,
+            validation_split=0.0
+        )
+
+    generator = datagen.flow_from_directory(
+        split_dir,
+        target_size=image_size,
+        batch_size=batch_size,
+        class_mode=class_mode,
+        shuffle=shuffle,
+        seed=seed
+    )
+
+    return generator
 
 
 def get_class_distribution(

@@ -53,15 +53,32 @@ def plot_class_distribution(distribution: Dict[str, Dict[str, Dict[str, float]]]
 
 
 
-def plot_image_sample(image_paths: List[str], labels: List[str]):
+
+def plot_image_sample(images, labels):
+    """
+    Plot a grid of images with their labels.
+
+    Args:
+        images: List of image paths or numpy arrays (image data).
+        labels: List of labels corresponding to each image.
+    """
     import math
-    num_images = len(image_paths)
+    import numpy as np
+
+    num_images = len(images)
     cols = min(5, num_images)
     rows = math.ceil(num_images / cols)
     plt.figure(figsize=(4 * cols, 4 * rows))
 
-    for idx, (path, label) in enumerate(zip(image_paths, labels)):
-        img = plt.imread(path)
+    for idx, (img_or_path, label) in enumerate(zip(images, labels)):
+        # Determine if input is a path or an image array
+        if isinstance(img_or_path, str):
+            img = plt.imread(img_or_path)
+        elif isinstance(img_or_path, np.ndarray):
+            img = img_or_path
+        else:
+            raise ValueError("Each image must be a file path or a numpy array.")
+
         ax = plt.subplot(rows, cols, idx + 1)
         ax.imshow(img)
         ax.set_title(label, fontsize=20)
