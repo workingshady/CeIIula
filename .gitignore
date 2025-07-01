@@ -1,0 +1,26 @@
+# Global Python ignores
+__pycache__/
+*.py[cod]
+*.ipynb_checkpoints
+
+# Virtual envs
+env/
+venv/
+
+# Data folders in all subprojects
+**/data/
+**/output/
+**/outputs/
+**/out/
+
+# OS files
+.DS_Store
+
+# Model weights
+*.h5
+*.pt
+*.pth
+*.ckpt
+
+# PDF reports if not needed
+*.pdf
