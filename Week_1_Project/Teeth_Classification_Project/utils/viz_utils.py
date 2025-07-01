@@ -3,7 +3,8 @@ import random
 import matplotlib.pyplot as plt
 plt.style.use('seaborn-v0_8-white')
 import numpy as np
-
+from sklearn.metrics import confusion_matrix
+import seaborn as sns
 
 def plot_class_distribution(distribution: Dict[str, Dict[str, Dict[str, float]]]):
     """
@@ -86,3 +87,42 @@ def plot_image_sample(images, labels):
 
     plt.tight_layout()
     plt.show()
+
+
+
+def plot_training_history(history):
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 5))
+
+    # Accuracy plot
+    ax1.plot(history.history['accuracy'], label='Training Accuracy',color='blue')
+    ax1.plot(history.history['val_accuracy'], label='Validation Accuracy',color='red')
+    ax1.set_title('Model Accuracy')
+    ax1.set_xlabel('Epoch')
+    ax1.set_ylabel('Accuracy')
+    ax1.legend()
+
+    # Loss plot
+    ax2.plot(history.history['loss'], label='Training Loss',color='blue')
+    ax2.plot(history.history['val_loss'], label='Validation Loss',color='red')
+    ax2.set_title('Model Loss')
+    ax2.set_xlabel('Epoch')
+    ax2.set_ylabel('Loss')
+    ax2.legend()
+
+    plt.tight_layout()
+    plt.savefig(f'visualizations/training_history_{history.model.name}.png')
+    plt.show()
+
+
+def plot_confusion_matrix(y_true, y_pred, class_names):
+    cm = confusion_matrix(y_true, y_pred)
+    plt.figure(figsize=(10, 8))
+    sns.heatmap(cm, annot=True, fmt='d', cmap='Blues',
+                xticklabels=class_names, yticklabels=class_names)
+    plt.title('Confusion Matrix')
+    plt.ylabel('True Label')
+    plt.xlabel('Predicted Label')
+    plt.savefig(f'visualizations/confusion_matrix.png')
+    plt.show()
+
+
