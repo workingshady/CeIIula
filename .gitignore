@@ -13,6 +13,13 @@ venv/
 **/outputs/
 **/out/
 
+# Model training artifacts
+**/logs/
+**/model_checkpoint/
+
+# Type checker cache
+**/.mypy_cache/
+
 # OS files
 .DS_Store
 
