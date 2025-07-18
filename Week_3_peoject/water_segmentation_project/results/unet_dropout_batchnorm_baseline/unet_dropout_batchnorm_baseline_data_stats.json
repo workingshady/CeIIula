@@ -1,0 +1,20 @@
+{
+  "num_samples": 306,
+  "image_size": [
+    128,
+    128
+  ],
+  "num_channels": 12,
+  "sample_files": {
+    "image": [
+      "data\\images\\0.tif",
+      "data\\images\\1.tif",
+      "data\\images\\10.tif"
+    ],
+    "label": [
+      "data\\labels\\0.png",
+      "data\\labels\\1.png",
+      "data\\labels\\10.png"
+    ]
+  }
+}
