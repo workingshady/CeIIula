@@ -10,7 +10,8 @@ __pycache__/
 .vscode/
 
 
-data/*
+data/images/
+data/labels/
 models/*
 *.h5
 *.pth
